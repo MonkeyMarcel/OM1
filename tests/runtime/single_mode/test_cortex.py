@@ -12,10 +12,13 @@ from runtime.single_mode.cortex import CortexRuntime
 
 @pytest.fixture
 def mock_config():
-    config = Mock(spec=RuntimeConfig, hertz=10.0)
-    config.name = "test_config"
-    config.cortex_llm = Mock()
-    config.agent_inputs = []
+    config = Mock(spec=RuntimeConfig)
+    config.__dict__.update({
+        "hertz": 10.0,
+        "name": "test_config",
+        "cortex_llm": Mock(),
+        "agent_inputs": [],
+    })
     return config
 
 
@@ -437,7 +440,7 @@ class TestCortexRuntimeHotReload:
             patch("runtime.single_mode.cortex.load_config") as mock_load_config,
         ):
             new_mock_config = Mock(spec=RuntimeConfig)
-            new_mock_config.hertz = 20.0
+            new_mock_config.__dict__.update({"hertz": 20.0})  # type: ignore
             mock_load_config.return_value = new_mock_config
 
             runtime = CortexRuntime(mock_config, "test_config", hot_reload=True)

@@ -29,7 +29,9 @@ def mock_config():
     config = Mock(spec=RuntimeConfig)
     simulator1 = MockSimulator(config=SimulatorConfig(name="sim1"))
     simulator2 = MockSimulator(config=SimulatorConfig(name="sim2"))
-    config.simulators = [simulator1, simulator2]
+    config.__dict__.update({
+        "simulators": [simulator1, simulator2],
+    })
     return config
 
 

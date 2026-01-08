@@ -89,12 +89,14 @@ def sample_transition_rules():
 def mock_system_config(sample_mode_configs, sample_transition_rules):
     """Mock system configuration with proper mode transition setup."""
     config = Mock(spec=ModeSystemConfig)
-    config.name = "test_system"
-    config.default_mode = "default"
-    config.modes = sample_mode_configs
-    config.transition_rules = sample_transition_rules
-    config.allow_manual_switching = True
-    config.execute_global_lifecycle_hooks = AsyncMock(return_value=True)
+    config.__dict__.update({  # type: ignore
+        "name": "test_system",
+        "default_mode": "default",
+        "modes": sample_mode_configs,
+        "transition_rules": sample_transition_rules,
+        "allow_manual_switching": True,
+        "execute_global_lifecycle_hooks": AsyncMock(return_value=True),
+    })
 
     for mode_config in sample_mode_configs.values():
         mode_config.load_components = Mock()

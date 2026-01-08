@@ -25,12 +25,14 @@ def sample_mode_config():
 def mock_mode_config():
     """Mock mode config for testing."""
     mock_config = Mock(spec=ModeConfig)
-    mock_config.name = "test_mode"
-    mock_config.display_name = "Test Mode"
-    mock_config.description = "A test mode"
-    mock_config.system_prompt_base = "You are a test agent"
-    mock_config.load_components = Mock()
-    mock_config.to_runtime_config = Mock()
+    mock_config.__dict__.update({  # type: ignore
+        "name": "test_mode",
+        "display_name": "Test Mode",
+        "description": "A test mode",
+        "system_prompt_base": "You are a test agent",
+        "load_components": Mock(),
+        "to_runtime_config": Mock(),
+    })
     return mock_config
 
 
@@ -38,12 +40,14 @@ def mock_mode_config():
 def mock_system_config(mock_mode_config):
     """Mock system configuration for testing."""
     config = Mock(spec=ModeSystemConfig)
-    config.name = "test_system"
-    config.default_mode = "default"
-    config.modes = {
-        "default": mock_mode_config,
-        "advanced": mock_mode_config,
-    }
+    config.__dict__.update({  # type: ignore
+        "name": "test_system",
+        "default_mode": "default",
+        "modes": {
+            "default": mock_mode_config,
+            "advanced": mock_mode_config,
+        },
+    })
     return config
 
 
@@ -563,8 +567,10 @@ class TestModeCortexRuntimeHotReload:
             mock_manager_class.return_value = mock_manager
 
             new_mock_config = Mock(spec=ModeSystemConfig)
-            new_mock_config.default_mode = "test_mode"
-            new_mock_config.modes = {"test_mode": Mock()}
+            new_mock_config.__dict__.update({  # type: ignore
+                "default_mode": "test_mode",
+                "modes": {"test_mode": Mock()},
+            })
             mock_load_config.return_value = new_mock_config
 
             runtime = ModeCortexRuntime(
@@ -609,8 +615,10 @@ class TestModeCortexRuntimeHotReload:
             mock_manager_class.return_value = mock_manager
 
             new_mock_config = Mock(spec=ModeSystemConfig)
-            new_mock_config.default_mode = "default_mode"
-            new_mock_config.modes = {"default_mode": Mock()}
+            new_mock_config.__dict__.update({  # type: ignore
+                "default_mode": "default_mode",
+                "modes": {"default_mode": Mock()},
+            })
             mock_load_config.return_value = new_mock_config
 
             runtime = ModeCortexRuntime(
