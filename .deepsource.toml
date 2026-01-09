@@ -1,0 +1,27 @@
+version = 1
+
+[[analyzers]]
+name = "slither"
+type = "community"
+
+[[analyzers]]
+name = "solhint"
+type = "community"
+
+[[analyzers]]
+name = "sql"
+
+[[analyzers]]
+name = "test-coverage"
+
+[[analyzers]]
+name = "python"
+
+  [analyzers.meta]
+  runtime_version = "3.x.x"
+
+[[analyzers]]
+name = "cxx"
+
+[[analyzers]]
+name = "docker"
